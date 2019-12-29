@@ -36,11 +36,11 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
     ** Initialize Manipulator Parameter
     *****************************************************************************/
     addWorld("world",   // world name
-             "shoulder_yaw_joint"); // child name
+             "joint1"); // child name
 
-    addJoint("shoulder_yaw_joint",  // my name
+    addJoint("joint1",  // my name
              "world",   // parent name
-             "shoulder_pitch_joint",  // child name
+             "joint2",  // child name
              math::vector3(0.000, 0.0, 0.050),                // relative position
              math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
              Z_AXIS,    // axis of rotation
@@ -55,9 +55,9 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
              math::vector3(-3.0184870e-04, 5.4043684e-04, 0.018 + 2.9433464e-02)   // COM
              );
 
-    addJoint("shoulder_pitch_joint",  // my name
-             "shoulder_yaw_joint",    // parent name
-             "elbow_pitch_joint",  // child name
+    addJoint("joint2",  // my name
+             "joint1",    // parent name
+             "joint3",  // child name
              math::vector3(0.0, 0.0, 0.0430),                 // relative position
              math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
              Y_AXIS,    // axis of rotation
@@ -72,9 +72,9 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
              math::vector3(1.0308393e-02, 3.7743363e-04, 1.0170197e-01)            // COM
              );
 
-    addJoint("elbow_pitch_joint",    // my name
-             "shoulder_pitch_joint", // parent name
-             "wrist_pitch_joint",  // child name
+    addJoint("joint3",    // my name
+             "joint2", // parent name
+             "joint4",  // child name
              math::vector3(0.035, 0.0, 0.100),               // relative position
              math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
              Y_AXIS,    // axis of rotation
@@ -89,8 +89,8 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
              math::vector3(9.0909590e-02, 3.8929816e-04, 2.2413279e-04)            // COM
              );
 
-    addJoint("wrist_pitch_joint",  // my name
-             "elbow_pitch_joint",  // parent name
+    addJoint("joint4",  // my name
+             "joint3",  // parent name
              "gripper", // child name
              math::vector3(0.100, 0.0, 0.0),                 // relative position
              math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
@@ -107,8 +107,8 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
              );
 
 #if 0
-    addJoint("wrist_roll_joint",  // my name
-             "wrist_pitch_joint",  // parent name
+    addJoint("joint5",  // my name
+             "joint4",  // parent name
              "gripper", // child name
              math::vector3(0.0655, 0.0, 0.0),                 // relative position
              math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
@@ -126,7 +126,7 @@ void PincherX100::init_pincher_x100(bool using_actual_robot_state, STRING usb_po
 #endif
 
     addTool("gripper",  // my name
-            "wrist_pitch_joint",   // parent name
+            "joint4",   // parent name
             math::vector3(0.0655, 0.0, 0.0),                 // relative position
             math::convertRPYToRotationMatrix(0.0, 0.0, 0.0), // relative orientation
             dxl_id[4],  // actuator id

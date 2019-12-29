@@ -60,18 +60,18 @@
     </xacro:macro>
 
     <!-- -->
-    <xacro:PincherTransmission joint_name="shoulder_yaw_joint"   actuator_name="joint1" />
-    <xacro:PincherTransmission joint_name="shoulder_pitch_joint" actuator_name="joint2" />
-    <xacro:PincherTransmission joint_name="elbow_pitch_joint"    actuator_name="joint3" />
-    <xacro:PincherTransmission joint_name="wrist_pitch_joint"    actuator_name="joint4" />
-    <xacro:PincherTransmission joint_name="wrist_roll_joint"     actuator_name="joint5" />
+    <xacro:PincherTransmission joint_name="joint1" actuator_name="joint1" />
+    <xacro:PincherTransmission joint_name="joint2" actuator_name="joint2" />
+    <xacro:PincherTransmission joint_name="joint3" actuator_name="joint3" />
+    <xacro:PincherTransmission joint_name="joint4" actuator_name="joint4" />
+    <xacro:PincherTransmission joint_name="joint5" actuator_name="joint5" />
     <!-- -->
     <!--
-    <xacro:PincherTransmission joint_name="shoulder_yaw_joint"   actuator_name="shoulder_yaw_joint" />
-    <xacro:PincherTransmission joint_name="shoulder_pitch_joint" actuator_name="shoulder_pitch_joint" />
-    <xacro:PincherTransmission joint_name="elbow_pitch_joint"    actuator_name="elbow_pitch_joint" />
-    <xacro:PincherTransmission joint_name="wrist_pitch_joint"    actuator_name="wrist_pitch_joint" />
-    <xacro:PincherTransmission joint_name="wrist_roll_joint"     actuator_name="wrist_roll_joint" />
+    <xacro:PincherTransmission joint_name="joint1" actuator_name="joint1" />
+    <xacro:PincherTransmission joint_name="joint2" actuator_name="shoulder_pitch_joint" />
+    <xacro:PincherTransmission joint_name="joint3" actuator_name="joint3" />
+    <xacro:PincherTransmission joint_name="joint4" actuator_name="joint4" />
+    <xacro:PincherTransmission joint_name="joint5" actuator_name="joint5" />
     -->
 
     <xacro:if value="${use_camera == 'true'}">
@@ -173,7 +173,7 @@
             </material>
         </visual>
     </link>
-    <joint name="shoulder_yaw_joint" type="revolute">
+    <joint name="joint1" type="revolute">
         <parent link="pincher_x100_base_link"/>
         <child link="shoulder_yaw_link"/>
         <axis xyz="0.000000 0.000000 1.000000"/>
@@ -201,7 +201,7 @@
             <material name="pincher_black" />
         </visual>
     </link>
-    <joint name="shoulder_pitch_joint" type="revolute">
+    <joint name="joint2" type="revolute">
         <parent link="shoulder_yaw_link"/>
         <child link="shoulder_pitch_link"/>
         <axis xyz="0.000000 1.000000 0.000000"/>
@@ -230,7 +230,7 @@
             <material name="pincher_black" />
         </visual>
     </link>
-    <joint name="elbow_pitch_joint" type="revolute">
+    <joint name="joint3" type="revolute">
         <parent link="shoulder_pitch_link"/>
         <child link="elbow_pitch_link"/>
         <axis xyz="0.000000 1.000000 0.000000"/>
@@ -258,7 +258,7 @@
             <material name="pincher_black" />
         </visual>
     </link>
-    <joint name="wrist_pitch_joint" type="revolute">
+    <joint name="joint4" type="revolute">
         <parent link="elbow_pitch_link"/>
         <child link="wrist_pitch_link"/>
         <axis xyz="0.000000 1.000000 0.000000"/>
@@ -286,7 +286,7 @@
             <material name="pincher_black" />
         </visual>
     </link>
-    <joint name="wrist_roll_joint" type="revolute">
+    <joint name="joint5" type="revolute">
         <parent link="wrist_pitch_link"/>
         <child link="wrist_roll_link"/>
         <axis xyz="1.000000 0.000000 0.000000"/>
