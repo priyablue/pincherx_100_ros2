@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- jsp : joint state publisher -->
+  <arg name="self_jsp" default="true" />
+  <arg name="model_urdf" default="$(eval find('pincher_x100_description') + '/urdf/pincher_x100.urdf.xacro')"/>
+  <arg name="gui" default="true" />
+  <arg name="rviz_config" default="$(find pincher_x100_description)/rviz/config.rviz" />
+  <arg name="tf_prefix" default="" />
+
+  <group ns="pincher">
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model_urdf)" /> 
+    <group if="$(arg self_jsp)">
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="$(arg gui)"/>
+      </node>
+    </group>
+    <!--node ns="pincher" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"-->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <!--param name="tf_prefix" value="$(arg tf_prefix)" /-->
+      <param name="tf_prefix" value="pincher" />
+    </node>
+  </group>
+
+  <group ns="d435">
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pincher_x100_description)/urdf/camera.urdf.xacro'"/>
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+      <arg name="enable_pointcloud" value="true"/>
+    </include>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  </group>
+
+  <!--node pkg="tf" type="static_transform_publisher" name="x100_to_d435_2" args="0 0 -0.0125 0 0 0 /wrist_roll_link d435_base_link 100"/-->
+  <!--node pkg="tf" type="static_transform_publisher" name="x100_to_d435_2" args="0 0 -0.0125 0 0 0 pincher/wrist_roll_link d435_base_link 100"/-->
+  <!-- 0.01615 = (0.02505 - 0.0149) + 0.006 -->
+  <!-- node pkg="tf" type="static_transform_publisher" name="x100_to_d435_2" args="0.01615 0 -0.0125 0 0 0 pincher/wrist_roll_link d435_base_link 100"/ -->
+  <node pkg="tf" type="static_transform_publisher" name="x100_to_d435_2" args="0.006 0 -0.0125 0 0 0 pincher/wrist_roll_link d435_base_link 100"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true" />
+
+</launch>

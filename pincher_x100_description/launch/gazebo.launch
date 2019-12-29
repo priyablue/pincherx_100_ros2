@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="ns" default="pincher"/>
+  <arg name="paused" default="false"/>
+  <arg name="gazebo_verbose" default="true"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="urdf_path" default="$(find pincher_x100_description)/urdf/pincher_x100_full.urdf.xacro"/>
+
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!--env name="GAZEBO_MODEL_PATH" value="$(find pincher_x100_description)/../"/-->
+    <!--env name="GAZEBO_MODEL_PATH" value=":$(env ROS_WORKSPACE):~/.gazebo/models"/-->
+    <arg name="world_name" default="$(find pincher_x100_description)/gazebo/empty.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="verbose" value="$(arg gazebo_verbose)"/>
+  </include>
+
+  <group ns="$(arg ns)">
+    <!-- send robot urdf to param server -->
+    <!--param name="robot_description" textfile="$(arg urdf_path)" /-->
+    <param name="robot_description" command="$(find xacro)/xacro $(arg urdf_path)" /> 
+  </group>
+
+  <!-- push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param $(arg ns)/robot_description -model robot -x 0 -y 0 -z 0"
+    respawn="false" output="screen">
+  </node>
+
+</launch>

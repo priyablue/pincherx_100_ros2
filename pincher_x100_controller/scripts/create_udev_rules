@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo ""
+echo "This script copies a udev rule to /etc to facilitate bringing"
+echo "up the Trossen's Pincher Arm usb connection."
+echo ""
+
+# sudo cp `rospack find pincher_x100_controller`/99-pincher-cdc.rules /etc/udev/rules.d/
+sudo cp /home/robotis/robotis_ws/src/pincher_x100/pincher_x100_controller/99-pincher-cdc.rules /etc/udev/rules.d/
+
+echo ""
+echo "Reload rules"
+echo ""
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+
+# sudo chmod a+rw /dev/ttyUSB0

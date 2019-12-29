@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="pincher_x100" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find pincher_x100_description)/urdf/_pincher_x100.urdf.xacro"/>
+
+  <link name="world"/>
+  <joint name="base_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link" />
+  <pincher_x100 sensor_topic_ns="pincher" parent="base_link" use_camera="false">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </pincher_x100>
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <!-- The ROS namespace to be used for this instance of the plugin, defaults to robot name in URDF/SDF -->
+      <robotNamespace>pincher</robotNamespace>
+
+      <!-- The period of the controller update (in seconds), defaults to Gazebo's period -->
+      <controlPeriod>0.001</controlPeriod>
+
+      <!-- The location of the robot_description (URDF) on the parameter server, defaults to '/robot_description' -->
+      <!-- <robotParam> -->
+
+      <!-- The pluginlib name of a custom robot sim interface to be used (see below for more details), defaults to 'DefaultRobotHWSim' -->
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+</robot>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- jsp : joint state publisher -->
+  <arg name="ns" default="pincher" />
+  <arg name="self_jsp" default="true" />
+  <arg name="model_urdf" default="$(eval find('pincher_x100_description') + '/urdf/pincher_x100_full.urdf.xacro')"/>
+  <arg name="gui" default="true" />
+  <arg name="rviz_config" default="$(find pincher_x100_description)/rviz/config_full.rviz" />
+  <arg name="tf_prefix" default="" />
+
+  <group ns="$(arg ns)">
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model_urdf)" /> 
+    <group if="$(arg self_jsp)">
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="$(arg gui)"/>
+      </node>
+    </group>
+    <!--node ns="$(arg ns)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"-->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <!--param name="tf_prefix" value="$(arg tf_prefix)" /-->
+      <param name="tf_prefix" value="$(arg ns)" />
+    </node>
+  </group>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" required="true" />
+
+</launch>
